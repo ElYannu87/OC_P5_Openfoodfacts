@@ -82,4 +82,60 @@ def get_categories_from_db():
         return db_categories
 
 
-fill_category()
+def categories_browser():
+    global products_list
+    global categories_list
+
+    page_min = 0
+    page_max = 10
+    while True:
+        print("Sélectionner une catégorie:")
+        if len(categories_list)-page_max < 10 <= 10 page_max :
+            page_max += len(categories_list)-page_max
+            if page_max < 10:
+                page_min = 0
+            else :
+                page_min = page_max -10
+        if page_min < 0:
+            page_min = 0
+            page_max = 10
+
+        for i in range(page_min, page_max):
+            print ("{} -{}".format (i+1, categories_list[i].name))
+
+        uinput = input("Entrez : Numéro pour sélectionner la catégorie""| > page suivante | < page précédente " "| 0 - revenir au menu principal\n")
+
+        if uinput == "0":
+            break
+        if uinput == ">":
+            page_max += 10
+            page_min += 10
+        if uinput == "<":
+            page_max -= 10
+            page_min -= 10
+        if uinput.isdigit():
+            categories_product_browser(int(uinput)-1, categories_list[int(uinput)-1].tag)
+
+def categories_product_browser(c_id, category_name):
+    global categories_list
+    global products_list
+
+    category_products = select_product_from_category(category_name)
+    page_min = 0
+    page_max = 10
+    while True:
+        if len(category_products)-page_max < 10 <= page_max:
+            page_max += len(category_products) -page_max
+            if page_max < 10:
+                page_min = 0
+            else:
+                page_min = page_max-10
+        if page_min < 0:
+            page_min =0
+            page_max = 10
+
+
+
+
+
+
