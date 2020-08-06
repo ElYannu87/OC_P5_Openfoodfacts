@@ -12,14 +12,16 @@ CREATE TABLE category
 
 CREATE TABLE product
 (
-    id              SERIAL  NOT NULL
+    id              SERIAL NOT NULL
         CONSTRAINT product_pk
             PRIMARY KEY,
-    name            TEXT    NOT NULL,
+    name            TEXT   NOT NULL,
     store           TEXT,
-    nutrition_grade CHAR(1) NOT NULL,
-    url             TEXT    NOT NULL,
-    category        TEXT    NOT NULL
+    nutrition_grade CHAR   NOT NULL,
+    url             TEXT   NOT NULL,
+    category    INTEGER
+        CONSTRAINT product_category_id_fk
+            REFERENCES category
 );
 
 
