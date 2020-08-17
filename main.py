@@ -115,7 +115,7 @@ def categories_browser():
             page_max -= 10
             page_min -= 10
         if uinput.isdigit():
-            categories_product_browser(int(uinput) - 1, categories_list[int(uinput) - 1].tag)
+            categories_product_browser(int(uinput)-1, categories_list[int(uinput)-1].tag)
 
 
 def categories_product_browser(c_id, category_name):
@@ -163,7 +163,7 @@ def categories_product_browser(c_id, category_name):
 
 def select_products_from_category(category):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("""SELECT * FROM product WHERE category LIKE %s """, (category))
+    cur.execute("""SELECT * FROM product WHERE category LIKE %s """, tuple(category))
     result = cur.fetchall()
     category_products = []
     for element in result:
@@ -229,9 +229,9 @@ def get_substitutes(product):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
     s_products = []
     if product.nutrition_grade == "d" or product.nutrition_grade == "e":
-        cur.execute("""SELECT * FROM product WHERE category LIKE %s AND nutrition_grade="a" 
-                        OR category LIKE %s AND nutrition_grade="b"
-                        OR category LIKE %s AND nutrition_grade="c" """,
+        cur.execute("""SELECT * FROM product WHERE category LIKE %s AND nutrition_grade='a' 
+                        OR category LIKE %s AND nutrition_grade='b'
+                        OR category LIKE %s AND nutrition_grade='b' """,
                     (product.category, product.category, product.category))
         result = cur.fetchall()
         for element in result:
@@ -240,7 +240,7 @@ def get_substitutes(product):
         return s_products
 
     else:
-        cur.execute("""SELECT * FROM product WHERE category LIKE %s AND nutrition_grade="a" """, (product.category))
+        cur.execute("""SELECT * FROM product WHERE category LIKE %s AND nutrition_grade='a' """, tuple(product.category))
         result = cur.fetchall()
         for element in result:
             s_products.append(cl.Product(element['name'], element['store'], element['nutrition_grade'], element['url'],
@@ -274,7 +274,7 @@ def substitutes_browser(product):
         uinput = input("\nEntrez: Numéro - selectionner un produit | > - page suivante |"
                        " < - page précedente | 0 - revenir au produit\n")
 
-        if uinput is '0':
+        if uinput == '0':
             break
         if uinput.isdigit():
             print_product(substitutes[int(uinput) - 1])
@@ -356,10 +356,14 @@ def client_menu():
         categories_list = get_categories_from_db()
 
     while running is True:
-        print("\n\t__Menu Principal__")
-        print("1 : Quel aliment souhaitez-vous remplacer ? ")
-        print("2 : Afficher la liste des favoris")
-        print("3 : Quitter")
+        print("""
+===================================
+     Bienvenue à openfoodfacts!
+===================================
+1. Quel aliment souhaitez-vous remplacer ?
+2. Afficher la liste des favoris
+3. QUITTER
+        """)
         uinput = input("Entrez: Un numéro pour choisir un menu")
 
         if uinput == '1':
