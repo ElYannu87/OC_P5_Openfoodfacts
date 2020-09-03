@@ -19,11 +19,14 @@ class FillDb:
             result = requests.get(
                 'https://fr.openfoodfacts.org/cgi/search.pl?page_size=1000&page={}&action=process&json=1'.format(
                     page)).json()
+            categories = self.fill_category(result)
             for element in result['products']:
                 try:
+                    for category in element['categories_tags']:
+                        cur.execute()
                     product_info = (
                         element["product_name"], element["stores"], element["nutrition_grade_fr"], element["url"],
-                        element['categories_tags'][0])
+                        categories[element['categories_tags'][0]])
                     products_list.append(
                         cl.Product(element["product_name"], element["stores"], element["nutrition_grade_fr"],
                                    element["url"], element['categories_tags'][0]))
@@ -38,18 +41,18 @@ class FillDb:
                     pass
             conn.commit()
 
-    def fill_category(self):
-        cursor = conn.cursor()
-        result = requests.get('https://fr.openfoodfacts.org/categories.json').json()
-        for element in result['tags']:
-            if element['products'] > 1500:
-                try:
-                    categories_list.append(cl.Category(element["id"], element["name"], element["url"]))
-                    cursor.execute("INSERT INTO category (tag, name, url) VALUES  (%s, %s, %s)",
-                                   (element["id"], element["name"], element["url"]))
-                    print(len(categories_list), "categories")
-                except conn.OperationalError:  # Don't take the products with encoding error
-                    pass
-                except conn.DataError:  # Pass when product name is too long
-                    pass
-            conn.commit()
+
+    def fill_category(self, product_list):
+        categories = dict()
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        for product in product_list['products']:
+            categories_list = product['categories_tags']
+            for category_name in categories_list:
+                if category_name not in categories:
+                    category_ids = cur.execute("SELECT id FROM category WHERE category.name LIKE %s", (category_name,))
+                    if category_ids is None or len(category_ids) == 0:
+                        category_id = cur.execute("INSERT INTO category(name, tag, url) VALUES (%s, %s, %s) RETURNING id", (category_name,"", ""))
+                    else:
+                        category_id = category_ids[0]
+                    categories.__setitem__(category_name, category_id)
+        return categories

@@ -163,7 +163,7 @@ def categories_product_browser(c_id, category_name):
 
 def select_products_from_category(category):
     cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-    cur.execute("""SELECT * FROM product WHERE category LIKE %s """, tuple(category))
+    cur.execute("SELECT * FROM product INNER JOIN category ON product.category = category.id WHERE category.tag LIKE '{}' ".format(category))
     result = cur.fetchall()
     category_products = []
     for element in result:

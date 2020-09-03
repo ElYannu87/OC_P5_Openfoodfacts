@@ -30,11 +30,18 @@ CREATE TABLE favorite
     replacement_product_id INTEGER      NOT NULL
         CONSTRAINT favorite_replacement_product_id_fk
             REFERENCES product,
-    name                   VARCHAR(300) NOT NULL,
-    store                  VARCHAR(300) NOT NULL,
-    nutrition_grade        CHAR         NOT NULL,
-    url                    VARCHAR(255) NOT NULL,
-    category               VARCHAR(300) NOT NULL,
     CONSTRAINT favorite_pk
         PRIMARY KEY (source_product_id, replacement_product_id)
+);
+
+CREATE TABLE product_category
+(
+    product_id      INTEGER      NOT NULL
+        CONSTRAINT product_category_product_id_fk
+            REFERENCES product,
+    category_id INTEGER      NOT NULL
+        CONSTRAINT product_category_category_id_fk
+            REFERENCES category,
+    CONSTRAINT product_category_pk
+        PRIMARY KEY (product_id, category_id)
 );
