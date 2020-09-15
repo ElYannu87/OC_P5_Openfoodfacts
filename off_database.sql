@@ -16,10 +16,7 @@ CREATE TABLE product
     name            TEXT   NOT NULL,
     store           TEXT,
     nutrition_grade CHAR   NOT NULL,
-    url             TEXT   NOT NULL,
-    category        INTEGER
-        CONSTRAINT product_category_id_fk
-            REFERENCES category
+    url             TEXT   NOT NULL
 );
 
 CREATE TABLE favorite

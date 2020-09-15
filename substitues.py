@@ -2,7 +2,7 @@ import psycopg2
 from psycopg2 import extras
 from config import *
 import off_class as cl
-from Categories_Browser import *
+from categories_browser import *
 
 conn = psycopg2.connect(dbname=DB, user=DB_USER, password=DB_PW, host=HOST, port=PORT)
 
