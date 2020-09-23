@@ -10,7 +10,7 @@ class SubstitutesFinder:
 
     def get_substitutes(self, product_ng, category_id):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cursor.execute("SELECT nutrition_grade, name FROM product INNER JOIN product_category ON "
+        cursor.execute("SELECT nutrition_grade, name, id FROM product INNER JOIN product_category ON "
                        "product.id = product_category.product_id WHERE category_id = %s AND product.name "
                        "IS NOT NULL AND product.nutrition_grade < %s ORDER BY product.nutrition_grade",
                        (category_id, product_ng))
@@ -24,7 +24,7 @@ class SubstitutesFinder:
             print(index, value)
 
         substitutes_choice = int(input("Please choose your substitute: "))
-        print("You have chosen : ", substitutes[substitutes_choice])
-        user_substitute_choice = (substitutes[substitutes_choice])
+        print("You have chosen : ", substitutes[substitutes_choice][1])
+        substitute_product = (substitutes[substitutes_choice][2])
 
-        return user_substitute_choice
+        return substitute_product
