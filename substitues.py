@@ -23,7 +23,14 @@ class SubstitutesFinder:
         for index, value in enumerate(substitutes):
             print(index, value)
 
-        substitutes_choice = int(input("Please choose your substitute: "))
+        while True:
+            try:
+                substitutes_choice = int(input("Please choose your substitute: "))
+            except ValueError:
+                print("Please choose one of the shown numbers")
+                continue
+            else:
+                break
         print("You have chosen : ", substitutes[substitutes_choice][1])
         substitute_product = (substitutes[substitutes_choice][2])
 
