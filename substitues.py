@@ -1,6 +1,7 @@
 import psycopg2
 from psycopg2 import extras
 from config import *
+from menu import Menu
 
 
 class SubstitutesFinder:
@@ -17,20 +18,25 @@ class SubstitutesFinder:
         substitute_result = cursor.fetchall()
         cursor.close()
 
-        page_size = 10
-        page = 0
-        substitutes = substitute_result[(page * page_size):(page * page_size) + page_size]
-        for index, value in enumerate(substitutes):
-            print(index, value)
-
-        while True:
-            try:
-                substitutes_choice = int(input("Please choose your substitute: "))
-            except ValueError:
-                print("Please choose one of the shown numbers")
-                continue
-            else:
-                break
+        menu_elements = list()
+        for e in substitute_result:
+            menu_elements.append((e[0], e[1]))
+        menu = Menu("Liste des produits", "choisissez un produit: ", menu_elements)
+        print(menu.result)
+        # page_size = 10
+        # page = 0
+        # substitutes = substitute_result[(page * page_size):(page * page_size) + page_size]
+        # for index, value in enumerate(substitutes):
+        #     print(index, value)
+        #
+        # while True:
+        #     try:
+        #         substitutes_choice = int(input("Please choose your substitute: "))
+        #     except ValueError:
+        #         print("Please choose one of the shown numbers")
+        #         continue
+        #     else:
+        #         break
         print("You have chosen : ", substitutes[substitutes_choice][1])
         substitute_product = (substitutes[substitutes_choice][2])
 
