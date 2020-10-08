@@ -5,13 +5,23 @@ from config import *
 
 
 class FillDatabase:
+    """
+    Class using two functions in order to fill the database
+    """
 
     def __init__(self):
+        """
+        Executes at first the inserts for the categories and then the products into the Database
+        """
         self.conn = psycopg2.connect(dbname=DB, user=DB_USER, password=DB_PW, host=HOST, port=PORT)
         self.categories = self.fill_category()
         self.fill_products()
 
     def fill_products(self):
+        """
+        Searches the .json of openfoodfacts for products and insert those into the product table of the
+        Database
+        """
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         categories = dict()
         for page in range(1, 2):
@@ -41,6 +51,10 @@ class FillDatabase:
         cursor.close()
 
     def fill_category(self):
+        """
+        Searches the different categories on openfoodfacts and inserts them into the category table in the Database
+        :return: Categories
+        """
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         categories = dict()
         result = requests.get('https://fr.openfoodfacts.org/categories.json').json()

@@ -5,11 +5,21 @@ from menu import Menu
 
 
 class SubstitutesFinder:
+    """
+    Proposes the substitutes for the the product chosen by the user
+    """
 
     def __init__(self):
         self.conn = psycopg2.connect(dbname=DB, user=DB_USER, password=DB_PW, host=HOST, port=PORT)
 
     def get_substitutes(self, product_ng, category_id):
+        """
+        Compares the product chosen by the user to find a better alternative by comparing the nutrition grade
+        ---------------------------------
+        :param product_ng: nutrition grade
+        :param category_id: category id
+        :return: all products in the same category with a better nutrition grade
+        """
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute("SELECT nutrition_grade, name, id FROM product INNER JOIN product_category ON "
                        "product.id = product_category.product_id WHERE category_id = %s AND product.name "
@@ -17,27 +27,16 @@ class SubstitutesFinder:
                        (category_id, product_ng))
         substitute_result = cursor.fetchall()
         cursor.close()
+        print(substitute_result)
 
         menu_elements = list()
         for e in substitute_result:
-            menu_elements.append((e[0], e[1]))
-        menu = Menu("Liste des produits", "choisissez un produit: ", menu_elements)
-        print(menu.result)
-        # page_size = 10
-        # page = 0
-        # substitutes = substitute_result[(page * page_size):(page * page_size) + page_size]
-        # for index, value in enumerate(substitutes):
-        #     print(index, value)
-        #
-        # while True:
-        #     try:
-        #         substitutes_choice = int(input("Please choose your substitute: "))
-        #     except ValueError:
-        #         print("Please choose one of the shown numbers")
-        #         continue
-        #     else:
-        #         break
-        print("You have chosen : ", substitutes[substitutes_choice][1])
-        substitute_product = (substitutes[substitutes_choice][2])
+            menu_elements.append((e[2], f"{e[1]} : {e[0]}"))
+        menu = Menu("Liste des produits", "choisissez un substitue: ", menu_elements)
+        substitutes_choice = menu.result
+        database_product = substitute_result
+        i = 0
+        while substitutes_choice[0] != database_product[i][2]:
+            i = i + 1
 
-        return substitute_product
+        return substitutes_choice
