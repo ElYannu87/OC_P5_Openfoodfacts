@@ -27,7 +27,6 @@ class SubstitutesFinder:
                        (category_id, product_ng))
         substitute_result = cursor.fetchall()
         cursor.close()
-        print(substitute_result)
 
         menu_elements = list()
         for e in substitute_result:

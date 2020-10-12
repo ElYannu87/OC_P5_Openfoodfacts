@@ -1,4 +1,4 @@
-from categories_browser import CategoryBrowser
+from controller import Controller
 from substitues import SubstitutesFinder
 from save_products import SaveProducts
 from favorites import Favorites
@@ -7,44 +7,39 @@ import psycopg2
 
 
 class Main:
-
+    """
+    Enables the whole script
+    """
     def __init__(self):
+        """
+        Calls both functions in order
+        """
         self.check_database()
         self.main_screen()
 
     def check_database(self):
+        """
+        Enables the script to check if there is any content in the Database to avoid filling it at each use
+        """
         connection = None
         try:
-            # In PostgreSQL, default username is 'postgres' and password is 'postgres'.
-            # And also there is a default database exist named as 'postgres'.
-            # Default host is 'localhost' or '127.0.0.1'
-            # And default port is '54322'.
             connection = psycopg2.connect(dbname=DB, user=DB_USER, password=DB_PW, host=HOST, port=PORT)
             print('Database connected.')
 
         except:
             print('Database not connected.')
+        cur = connection.cursor()
 
-        if connection is not None:
-            connection.autocommit = True
+        cur.execute("SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = 'public'"
+                    "AND table_name = 'category')")
 
-            cur = connection.cursor()
-
-            cur.execute("SELECT name FROM category")
-
-            list_database = cur.fetchall()
-
-            database_name = input('Enter database name to check exist or not: ')
-
-            if (database_name,) in list_database:
-                print("'{}' Database already exist".format(database_name))
-            else:
-                print("'{}' Database not exist.".format(database_name))
-            connection.close()
-            print('Done')
+        list_database = cur.fetchall()
 
     def main_screen(self):
-
+        """
+        Main menu that guides the user to the different functionalities of the program and will execute only the chosen
+        option
+        """
         loop = 1
         while loop:
             try:
@@ -54,11 +49,11 @@ class Main:
                     "3 - Quitter le programme. \n"
                 ))
                 if choice == 1:
-                    cb = CategoryBrowser()
+                    cb = Controller()
                     category_id = cb.categories_browser()
                     product = cb.product_browser(category_id[0])
-                    sf = SubstitutesFinder()
-                    sub = sf.get_substitutes(product["nutrition_grade"], category_id[0])
+                    sf = cb.substitute_browser
+                    sub = cb.substitute_browser(product["nutrition_grade"], category_id[0])
                     print(f" Votre substitue choisi : {sub[1]}")
                     save_choice = int(input(
                         "1 - Sauvegarder mon produit dans mes favoris. \n"
@@ -79,5 +74,6 @@ class Main:
             except ValueError:
                 return self.main_screen()
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     Main()

@@ -1,20 +1,14 @@
 from typing import Tuple, List
-
-import psycopg2
-from psycopg2 import extras
-from config import *
 from menu import Menu
+from database_browser import DatabaseBrowser
 
 
-class CategoryBrowser:
+class Controller:
     """
     Ask user for a category and a product
     ---------------------------------
-    All functions use the dynamic menu.py f
+    All functions use the dynamic menu.py
     """
-
-    def __init__(self):
-        self.conn = psycopg2.connect(dbname=DB, user=DB_USER, password=DB_PW, host=HOST, port=PORT)
 
     def categories_browser(self) -> Tuple[int, str]:
         """
@@ -22,12 +16,8 @@ class CategoryBrowser:
         ---------------------------------
         :returns the id of the chosen category
         """
-        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cursor.execute("SELECT category_id, category.name AS category_name, COUNT(*) AS nb_products "
-                       "FROM product_category LEFT JOIN category ON product_category.category_id = category.id "
-                       "GROUP BY category_id, category.name ORDER BY nb_products DESC LIMIT 30")
-        query_result = cursor.fetchall()  # type: List[Tuple[int, str, int]]
-        cursor.close()
+        db = DatabaseBrowser.get_instance()
+        query_result = db.get_categories()
         menu_elements = list()  # type: List[Tuple[int, str]]
         for e in query_result:
             menu_elements.append((e[0], e[1]))
@@ -44,12 +34,8 @@ class CategoryBrowser:
         :param category_id returned from the user choice in categories_browser
         :returns a dictionnary with the product id, the product name and the nutrition grade
         """
-        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cursor.execute("SELECT product.name AS product_name, nutrition_grade, id FROM product "
-                       "INNER JOIN product_category ON "
-                       "product.id = product_category.product_id WHERE category_id = %s", [category_id])
-        product_result = cursor.fetchall()
-        cursor.close()
+        db = DatabaseBrowser.get_instance()
+        product_result = db.get_products(category_id)
         menu_elements = list()      # type: List[Tuple[int, str]]
         for e in product_result:
             menu_elements.append((e[2], f"{e[0]} : {e[1]}"))
@@ -62,4 +48,24 @@ class CategoryBrowser:
 
         return {"id": database_product[i][2], "name": database_product[i][0], "nutrition_grade": database_product[i][1]}
 
+    def substitute_browser(self, product_ng, category_id):
+        """
+        Compares the product chosen by the user to find a better alternative by comparing the nutrition grade
+        ---------------------------------
+        :param product_ng: nutrition grade
+        :param category_id: category id
+        :return: all products in the same category with a better nutrition grade
+        """
+        db = DatabaseBrowser.get_instance()
+        substitute_result = db.get_substitutes(product_ng, category_id)
+        menu_elements = list()
+        for e in substitute_result:
+            menu_elements.append((e[2], f"{e[1]} : {e[0]}"))
+        menu = Menu("Liste des produits", "choisissez un substitue: ", menu_elements)
+        substitutes_choice = menu.result
+        database_product = substitute_result
+        i = 0
+        while substitutes_choice[0] != database_product[i][2]:
+            i = i + 1
 
+        return substitutes_choice
