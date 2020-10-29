@@ -17,6 +17,14 @@ class FillDatabase:
         self.categories = self.fill_category()
         self.fill_products()
 
+    def check_table_not_empty(self, table_name):
+        cursor = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cursor.execute("SELECT COUNT(*) FROM %s", (table_name,))
+        count = cursor.fetchone
+        if count:
+            print("Database has content")
+        return count > 0
+
     def fill_products(self):
         """
         Searches the .json of openfoodfacts for products and insert those into the product table of the
@@ -71,3 +79,6 @@ class FillDatabase:
         self.conn.commit()
         cursor.close()
         return categories
+
+
+FillDatabase()

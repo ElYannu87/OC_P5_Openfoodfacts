@@ -69,3 +69,29 @@ class Controller:
             i = i + 1
 
         return substitutes_choice
+
+    def save_products(self, product, sub):
+        """
+        Saves the chosen product and the substitute into the favorite table in the Database
+        ---------------------------------
+        :param product: The initially chosen product
+        :param sub: the chosen substitute
+        """
+        db = DatabaseBrowser.get_instance()
+        save_user_product = db.get_substitutes(product, sub)
+
+        return save_user_product
+
+    def show_favorites(self):
+        """
+        Shows all of the saved favorite substitutes of the user
+        :return: A list of all the saved substitutes with their name, nutrition grade, where to buy and the URL for
+                 more information on the product
+        """
+        db = DatabaseBrowser.get_instance()
+        query_result = db.get_products_from_favorite()
+        favorite_db_products = []
+        for element, index, id, name, store, nutri, url in query_result:
+            print(f"Nom : {name} \n Magasin : {store} \n Grade nutritionnel : {nutri} \n URL : {url} \n")
+
+        return favorite_db_products
