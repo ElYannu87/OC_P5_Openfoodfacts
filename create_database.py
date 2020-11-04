@@ -5,11 +5,11 @@ from config import DB, DB_PW, DB_USER, HOST, PORT
 
 
 class CreateDatabase:
-    '''
+    """
     Creates the Database if none existent
     Each table will check before it's creation if it is already
     present in the Database.
-    '''
+    """
 
     def __init__(self):
         self.conn = psycopg2.connect(dbname=DB, user=DB_USER, password=DB_PW, host=HOST, port=PORT)

@@ -6,10 +6,10 @@ from config import *
 
 
 class DatabaseBrowser:
-    '''
+    """
     Class that is called to execute the different SQL querys to the Database
     Each function will send a specific command to the Database to retrieve or save informations.
-    '''
+    """
     _instance = None
 
     @classmethod
@@ -22,9 +22,9 @@ class DatabaseBrowser:
         self.conn = psycopg2.connect(dbname=DB, user=DB_USER, password=DB_PW, host=HOST, port=PORT)
 
     def get_categories(self):
-        '''
+        """
         :returns : the 30 most popular categories
-        '''
+        """
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute("SELECT category_id, category.name AS category_name, COUNT(*) AS nb_products "
                        "FROM product_category LEFT JOIN category ON product_category.category_id = category.id "
@@ -34,10 +34,10 @@ class DatabaseBrowser:
         return query_result
 
     def get_products(self, category_id):
-        '''
+        """
         ;:param : category_id chosen by user
         :returns : The products chosen by user
-        '''
+        """
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cursor.execute("SELECT product.name AS product_name, nutrition_grade, id FROM product "
                        "INNER JOIN product_category ON "

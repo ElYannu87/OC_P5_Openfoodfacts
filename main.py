@@ -1,7 +1,4 @@
 from controller import Controller
-from create_database import CreateDatabase
-from config import *
-import psycopg2
 
 
 class Main:
@@ -14,7 +11,6 @@ class Main:
         Calls both functions in order
         """
         self.main_screen()
-
 
     def main_screen(self):
         """
@@ -42,10 +38,9 @@ class Main:
                     if save_choice == 1:
                         cb.save_products(product["id"], sub[0])
                     if save_choice == 2:
-                        Main.main_screen()
+                        Main.main_screen(self)
 
                 if choice == 2:
-                    cb.categories_browser()
                     cb.show_favorites()
 
                 if choice == 3:
