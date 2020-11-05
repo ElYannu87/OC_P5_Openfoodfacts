@@ -10,15 +10,27 @@ plus sains que celui sélectionné. Le programme s'appuie sur les données de la
 ## **Parcours utilisateur**
 L'utilisateur ouvre le programme, ce dernier lui affiche les choix suivantes:
 
-Quel aliment souhaitez-vous remplacer?
-Retrouver mes aliments favoris substitués.
+    1 Choisir des aliments à substituer. 
+    2 Voir mes favoris. 
+    3 Quitter le programme..
 
-L'utilisateur sélectionne 1. Le programme pose les questions suivantes à l'utilisateur et ce dernier sélectionne les réponses :
+L'utilisateur sélectionne 1 : Le programme pose les questions suivantes à l'utilisateur et ce dernier sélectionne les réponses :
 
 Sélectionnez la catégorie. [Plusieurs propositions associées à un chiffre. L'utilisateur entre le chiffre correspondant et appuie sur entrée]
 Sélectionnez l'aliment. [Plusieurs propositions associées à un chiffre. L'utilisateur entre le chiffre correspondant à l'aliment choisi et appuie sur entrée]
-Le programme propose un substitut, sa description, un magasin ou l'acheter (le cas échéant) et un lien vers la page d'Open Food Facts concernant cet aliment.
-L'utilisateur a alors la possibilité d'enregistrer le résultat dans ses favoris dans la base de données.
+Le programme propose un substitut avec un meilleur nutriscore et laisse 2 choix à l'utilisateur :
+
+    1 - Sauvegarder mon produit dans mes favoris. 
+    2 - Retourner au menu principal.
+
+L'utilisateur sélectionne 1 :  Le programme va enregistrer le résultat dans les favoris dans la base de données et revenir au menu principale.
+L'utilisateur sélectionne 2 : Le programme reviens directement au menu principal
+
+
+L'utilisateur sélectionne 2 : Le programme lui montre tous les favoris enregistrer dans le base de données avec les liens vers Openfoodfacts ainsi que un magasin ou le produit peut être acheté
+
+L'utilisateur sélectionne 3 : Le programme quitte.
+
 ## **Fonctionnalités**
 Recherche d'aliments dans la base Open Food Facts.
 L'utilisateur interagit avec le programme dans le terminal.
@@ -33,6 +45,6 @@ Afin d'avoir toutes les packages nécessaires au bon fonctionnement installer le
 ## **Lancement de l'application**
 Pour lancer l'application, il suffit simplement d'exécuter main.py. Si vous êtes dans le répertoire app/:
 
-python3 main.py
+    python3 main.py
 
 
