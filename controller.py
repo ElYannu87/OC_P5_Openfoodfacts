@@ -78,7 +78,7 @@ class Controller:
         :param sub: the chosen substitute
         """
         db = DatabaseBrowser.get_instance()
-        save_user_product = db.get_substitutes(product, sub)
+        save_user_product = db.save_user_product(product, sub)
 
         return save_user_product
 
