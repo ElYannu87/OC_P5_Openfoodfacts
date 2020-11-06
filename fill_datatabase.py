@@ -79,6 +79,3 @@ class FillDatabase:
         self.conn.commit()
         cursor.close()
         return categories
-
-
-FillDatabase()

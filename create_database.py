@@ -58,6 +58,3 @@ class CreateDatabase:
                        "product_category_category_id_fk REFERENCES category, CONSTRAINT product_category_pk PRIMARY "
                        "KEY (product_id, category_id));")
         cursor.close()
-
-
-CreateDatabase()

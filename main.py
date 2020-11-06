@@ -1,4 +1,6 @@
 from controller import Controller
+from create_database import CreateDatabase
+from fill_datatabase import FillDatabase
 
 
 class Main:
@@ -10,6 +12,8 @@ class Main:
         """
         Calls both functions in order
         """
+        CreateDatabase()
+        FillDatabase()
         self.main_screen()
 
     def main_screen(self):
