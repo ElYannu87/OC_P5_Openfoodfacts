@@ -13,16 +13,7 @@ class Main:
         Calls both functions in order
         """
         CreateDatabase()
-
-        choice = int(input(
-            "1 - Remplir la base de données. \n"
-            "2 -Continuer. \n"
-        ))
-        if choice == 1:
-            FillDatabase()
-            Main.main_screen(self)
-        if choice == 2:
-            Main.main_screen(self)
+        Main.main_screen(self)
 
     def main_screen(self):
         """
@@ -33,12 +24,16 @@ class Main:
         while loop:
             try:
                 choice = int(input(
-                    "1 - Choisir des aliments à substituer. \n"
-                    "2 - Voir mes favoris. \n"
-                    "3 - Quitter le programme. \n"
+                    "1 - Remplir la base de données. \n"
+                    "2 - Choisir des aliments à substituer. \n"
+                    "3 - Voir mes favoris. \n"
+                    "4 - Quitter le programme. \n"
                 ))
-                cb = Controller()
                 if choice == 1:
+                    FillDatabase()
+
+                cb = Controller()
+                if choice == 2:
                     category_id = cb.categories_browser()
                     product = cb.product_browser(category_id[0])
                     sub = cb.substitute_browser(product["nutrition_grade"], category_id[0])
