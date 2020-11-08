@@ -13,8 +13,16 @@ class Main:
         Calls both functions in order
         """
         CreateDatabase()
-        FillDatabase()
-        self.main_screen()
+
+        choice = int(input(
+            "1 - Remplir la base de données. \n"
+            "2 -Continuer. \n"
+        ))
+        if choice == 1:
+            FillDatabase()
+            Main.main_screen(self)
+        if choice == 2:
+            Main.main_screen(self)
 
     def main_screen(self):
         """

@@ -19,7 +19,7 @@ class FillDatabase:
 
     def check_table_not_empty(self, table_name):
         cursor = self.conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-        cursor.execute("SELECT COUNT(*) FROM %s", (table_name,))
+        cursor.execute("SELECT COUNT(*) FROM %s", [table_name])
         count = cursor.fetchone
         if count:
             print("Database has content")
