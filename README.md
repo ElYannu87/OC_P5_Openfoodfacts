@@ -38,7 +38,7 @@ Si l'utilisateur entre un caractère qui n'est pas un chiffre, le programme doit
 La recherche doit s'effectuer sur une base Sql (Postgresql dans cette versions).
 
 ## **Pré-requis**
-Il est nécessaire dans un premier temps de créer une base de donnée et de remplir les informations de connexion à cette dernière dans le fichier config.py.
+Il est nécessaire dans un premier temps de créer une base de données et de remplir les informations de connexion à cette dernière dans le fichier config.py.
 
 ## **Installation**
 Afin d'avoir toutes les packages nécessaires au bon fonctionnement installer les également le fichier requirements.txt
