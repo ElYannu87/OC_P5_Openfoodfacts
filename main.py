@@ -50,7 +50,7 @@ class Main:
                 if choice == 3:
                     cb.show_favorites()
 
-                if choice == 3:
+                if choice == 4:
                     loop = 0
             except ValueError:
                 return self.main_screen()
