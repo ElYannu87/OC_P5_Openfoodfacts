@@ -10,11 +10,12 @@ plus sains que celui sélectionné. Le programme s'appuie sur les données de la
 ## **Parcours utilisateur**
 L'utilisateur ouvre le programme, ce dernier lui affiche les choix suivantes:
 
-    1 Choisir des aliments à substituer. 
-    2 Voir mes favoris. 
-    3 Quitter le programme..
+    1 Remplir la base de données.
+    2 Choisir des aliments à substituer. 
+    3 Voir mes favoris. 
+    4 Quitter le programme.
 
-L'utilisateur sélectionne 1 : Le programme pose les questions suivantes à l'utilisateur et ce dernier sélectionne les réponses :
+L'utilisateur sélectionne 2 : Le programme pose les questions suivantes à l'utilisateur et ce dernier sélectionne les réponses :
 
 Sélectionnez la catégorie. [Plusieurs propositions associées à un chiffre. L'utilisateur entre le chiffre correspondant et appuie sur entrée]
 Sélectionnez l'aliment. [Plusieurs propositions associées à un chiffre. L'utilisateur entre le chiffre correspondant à l'aliment choisi et appuie sur entrée]
@@ -27,9 +28,9 @@ L'utilisateur sélectionne 1 :  Le programme va enregistrer le résultat dans le
 L'utilisateur sélectionne 2 : Le programme reviens directement au menu principal
 
 
-L'utilisateur sélectionne 2 : Le programme lui montre tous les favoris enregistrer dans le base de données avec les liens vers Openfoodfacts ainsi que un magasin ou le produit peut être acheté
+L'utilisateur sélectionne 3 : Le programme lui montre tous les favoris enregistrer dans le base de données avec les liens vers Openfoodfacts ainsi que un magasin ou le produit peut être acheté
 
-L'utilisateur sélectionne 3 : Le programme quitte.
+L'utilisateur sélectionne 4 : Le programme quitte.
 
 ## **Fonctionnalités**
 Recherche d'aliments dans la base Open Food Facts.
