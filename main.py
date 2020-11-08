@@ -47,7 +47,7 @@ class Main:
                     if save_choice == 2:
                         Main.main_screen(self)
 
-                if choice == 2:
+                if choice == 3:
                     cb.show_favorites()
 
                 if choice == 3:
